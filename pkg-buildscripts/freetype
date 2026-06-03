@@ -1,0 +1,23 @@
+#!/bin/bash -eu
+
+. ./common.sh
+common_init "$@"
+
+pkgver=2.14.3
+fetch_web "https://download.savannah.gnu.org/releases/freetype/freetype-$pkgver.tar.gz" \
+	e61b31ab26358b946e767ed7eb7f4bb2e507da1cfefeb7a8861ace7fd5c899a1
+unpack_tar "freetype-$pkgver.tar.gz" --strip-components=1
+
+zlibpath=$(depend_get_path zlib)
+mkdir -p cmakebuild
+cd cmakebuild
+cmake .. "${CMAKE_FLAGS[@]}" \
+	-DBUILD_SHARED_LIBS=ON -DFT_REQUIRE_ZLIB=ON \
+	-DZLIB_INCLUDE_DIR="$zlibpath/include" -DZLIB_LIBRARY="$zlibpath/lib/libz.dll.a"
+make
+
+common_flat_tree
+make DESTDIR=$INSTALL_DIR install
+common_tidy
+
+package $pkgver
