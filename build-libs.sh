@@ -11,6 +11,7 @@ cd pkg-buildscripts
 rm -rf build
 
 ./zlib
+./mbedtls
 ./curl
 ./freetype
 ./libjpeg

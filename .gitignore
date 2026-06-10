@@ -2,3 +2,5 @@ build_principia
 libs
 mingw
 _old
+principia/
+principia.zip

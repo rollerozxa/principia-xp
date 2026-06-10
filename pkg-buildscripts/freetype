@@ -12,8 +12,8 @@ zlibpath=$(depend_get_path zlib)
 mkdir -p cmakebuild
 cd cmakebuild
 cmake .. "${CMAKE_FLAGS[@]}" \
-	-DBUILD_SHARED_LIBS=ON -DFT_REQUIRE_ZLIB=ON \
-	-DZLIB_INCLUDE_DIR="$zlibpath/include" -DZLIB_LIBRARY="$zlibpath/lib/libz.dll.a"
+	-DBUILD_SHARED_LIBS=OFF -DFT_REQUIRE_ZLIB=ON \
+	-DZLIB_INCLUDE_DIR="$zlibpath/include" -DZLIB_LIBRARY="$zlibpath/lib/libz.a"
 make
 
 common_flat_tree

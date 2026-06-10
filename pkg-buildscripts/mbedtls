@@ -1,0 +1,25 @@
+#!/bin/bash -eu
+
+. ./common.sh
+common_init "$@"
+
+pkgver=3.4.1
+fetch_web "https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/v3.4.1.tar.gz" \
+	a420fcf7103e54e775c383e3751729b8fb2dcd087f6165befd13f28315f754f5
+unpack_tar "v3.4.1.tar.gz" --strip-components=1
+
+sed -i 's/#if defined(_TRUNCATE)/#if 0/' library/platform.c
+
+mkdir -p cmakebuild
+cd cmakebuild
+cmake .. "${CMAKE_FLAGS[@]}" \
+	-DENABLE_TESTING=OFF \
+	-DENABLE_PROGRAMS=OFF
+
+make
+
+common_flat_tree
+make DESTDIR=$INSTALL_DIR install
+common_tidy
+
+package $pkgver

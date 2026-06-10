@@ -13,7 +13,7 @@ make PREFIX=$MINGW_PREFIX- CC=$CC \
 	-fwin32/Makefile.gcc
 
 make \
-	DESTDIR=$INSTALL_DIR SHARED_MODE=1 \
+	DESTDIR=$INSTALL_DIR SHARED_MODE=0 \
 	BINARY_PATH=/bin INCLUDE_PATH=/include LIBRARY_PATH=/lib \
 	install -fwin32/Makefile.gcc
 common_tidy

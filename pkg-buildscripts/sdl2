@@ -14,7 +14,7 @@ opts=(
 	-DSDL_RENDER=OFF -DSDL_DIRECTX=OFF # 2D rendering
 	-DSDL_AUDIO=ON # audio output
 	-DSDL_HIDAPI=OFF # USB/HID devices
-	-DSDL_STATIC=ON
+	-DSDL_STATIC=ON -DSDL_SHARED=OFF
 	-DCMAKE_C_FLAGS="-DSDL_LEAN_AND_MEAN=1"
 )
 [ $build_full -eq 1 ] && opts=()

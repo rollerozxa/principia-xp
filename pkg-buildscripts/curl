@@ -9,13 +9,25 @@ fetch_web "https://curl.se/download/curl-$pkgver.tar.bz2" \
 unpack_tar "curl-$pkgver.tar.bz2" --strip-components=1
 
 zlibpath=$(depend_get_path zlib)
+mbedtlspath=$(depend_get_path mbedtls)
+echo $mbedtlspath # this prints out the correct path
 options=(
-	-DBUILD_STATIC_LIBS=OFF -DCURL_USE_SCHANNEL=ON
-	-DCURL_DISABLE_{DOH,GOPHER,IMAP,KERBEROS_AUTH,MQTT,POP3,RTSP,SMTP,SRP,TELNET,TFTP}=ON
+	-DBUILD_SHARED_LIBS=OFF
+	-DBUILD_STATIC_LIBS=ON -DCURL_USE_SCHANNEL=OFF
+	-DBUILD_CURL_EXE=OFF
+	-DCURL_DISABLE_{ALTSVC,AWS,BASIC_AUTH,BEARER_AUTH,BINDLOCAL,DICT,DIGEST_AUTH,DOH,FTP,GOPHER,HSTS,IMAP,IPFS,KERBEROS_AUTH,LDAP,LDAPS,MQTT,NEGOTIATE_AUTH,NTLM,PARSEDATE,POP3,RTSP,SMB,SMTP,SOCKETPAIR,SRP,TELNET,TFTP,WEBSOCKETS}=ON
 	-DCURL_USE_LIBPSL=OFF
+	-DCURL_USE_OPENSSL=OFF
+	-DCURL_USE_MBEDTLS=ON
+	-DMBEDTLS_INCLUDE_DIR="$mbedtlspath/include"
+	-DMBEDTLS_LIBRARY="$mbedtlspath/lib/libmbedtls.a"
+	-DMBEDTLS_X509_LIBRARY="$mbedtlspath/lib/libmbedx509.a"
+	-DMBEDTLS_CRYPTO_LIBRARY="$mbedtlspath/lib/libmbedcrypto.a"
 	-DCURL_ZLIB=ON -DZLIB_INCLUDE_DIR="$zlibpath/include" -DZLIB_LIBRARY="$zlibpath/lib/libz.dll.a"
 	-DCURL_ZSTD=OFF
+	-DCURL_CA_BUNDLE="data/curl-ca-bundle.crt"
 )
+
 cmake . "${CMAKE_FLAGS[@]}" "${options[@]}"
 make
 

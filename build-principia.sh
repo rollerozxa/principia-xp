@@ -15,23 +15,25 @@ INCLUDE="$LIBS/include"
 cmake ../principia/ \
 	-DCMAKE_TOOLCHAIN_FILE="$TOPDIR/toolchain-i686-w64-mingw32.cmake" \
 	-DCMAKE_BUILD_TYPE=Release \
+	-DUNITY_BUILD=ON \
 	-DSDL2_DIR="$LIB/cmake/SDL2/" \
 	-DCURL_INCLUDE_DIR="$INCLUDE" \
-	-DCURL_LIBRARY="$LIB/libcurl.dll.a" \
+	-DCURL_LIBRARY="$LIB/libcurl.a;$LIB/libmbedtls.a;$LIB/libmbedcrypto.a;$LIB/libmbedx509.a;$LIB/libz.a" \
 	-DFREETYPE_INCLUDE_DIR_ftbuild2="$INCLUDE/freetype2" \
 	-DFREETYPE_INCLUDE_DIR_freetype2="$INCLUDE/freetype2/freetype" \
 	-DFREETYPE_INCLUDE_DIRS="$INCLUDE/freetype2" \
-	-DFREETYPE_LIBRARY="$LIB/freetype.dll.a" \
-	-DFREETYPE_LIBRARY_RELEASE="$LIB/libfreetype.dll.a" \
+	-DFREETYPE_LIBRARY="$LIB/freetype.a" \
+	-DFREETYPE_LIBRARY_RELEASE="$LIB/libfreetype.a" \
 	-DJPEG_INCLUDE_DIR="$INCLUDE" \
-	-DJPEG_LIBRARY_RELEASE="$LIB/libjpeg.dll.a" \
+	-DJPEG_LIBRARY_RELEASE="$LIB/libjpeg.a" \
 	-DPNG_PNG_INCLUDE_DIR="$INCLUDE" \
-	-DPNG_LIBRARY_RELEASE="$LIB/libpng16.dll.a" \
+	-DPNG_LIBRARY_RELEASE="$LIB/libpng16.a" \
 	-DZLIB_INCLUDE_DIR="$INCLUDE" \
-	-DZLIB_LIBRARY_RELEASE="$LIB/libz.dll.a" \
+	-DZLIB_LIBRARY_RELEASE="$LIB/libz.a" \
+	-DCMAKE_C_FLAGS="-ffunction-sections -fdata-sections" \
+	-DCMAKE_CXX_FLAGS="-ffunction-sections -fdata-sections" \
+	-DCMAKE_EXE_LINKER_FLAGS="-Wl,--gc-sections -static" \
 	-DBACKEND_IMGUI=ON \
 	-G Ninja
 
 ninja
-
-
