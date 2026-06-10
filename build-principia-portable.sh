@@ -11,4 +11,6 @@ mkdir -p principia
 cp principia.exe principia/
 cp -r ../principia/data principia/
 cp ../curl-ca-bundle.crt principia/data
-zip -r ../principia.zip principia
+touch principia/portable.txt
+rm -f ../principia-portable.zip
+zip -r ../principia-portable.zip principia

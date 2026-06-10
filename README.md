@@ -6,4 +6,5 @@ In general, the steps for the scripts are as follows:
 1. `build-libs.sh` to build dependency libraries using the compiled toolchain, outputting to `libs/`
 1. `git clone https://github.com/Bithack/principia`
 1. `build-principia.sh` to build Principia in `build_principia/`
-1. `build-principia-pkgs.sh` to bundle everything up into a `principia.zip` archive
+1. `build-principia-installer.sh` to create a NSIS installer
+1. `build-principia-portable.sh` to create a portable zip archive
