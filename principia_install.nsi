@@ -5,13 +5,15 @@ ManifestDPIAware true
 
 !include "MUI2.nsh"
 !include "LogicLib.nsh"
+!include "WinVer.nsh"
+!include "x64.nsh"
 
 !define MUI_ICON "principia\packaging\icon.ico"
 !define VER_MAJOR 2026
-!define VER_MINOR 07
-!define VER_BUILD 21
+!define VER_MINOR 09
+!define VER_BUILD 20
 
-!define VERSION "2026-07-21-xp"
+!define VERSION "2026-09-20-xp"
 
 !define LOGO_FILE "install_logo.bmp"
 !define LOGO_PATH "${LOGO_FILE}"
@@ -50,9 +52,19 @@ Function un.onInit
 FunctionEnd
 
 Function DrawLogo
+    ; Windows 10, version 1607+
+    ${If} ${AtLeastWaaS} 1607
+        System::Call 'user32::GetDpiForWindow(p $HWNDPARENT)i .r0'
+    ${Else}
+        ; Fallback for older Windows versions
+        System::Call 'user32::GetDC(p 0)p .r1'
+        System::Call 'gdi32::GetDeviceCaps(p r1, i 88)i .r0'
+        System::Call 'user32::ReleaseDC(p 0, p r1)'
+    ${EndIf}
+
     ; Get DPI of the dialog
     Var /global DialogDPI
-    StrCpy $DialogDPI 96
+    StrCpy $DialogDPI $0
 
     ; Scale image size (128x128) according to DPI
     Var /global ImageSize
